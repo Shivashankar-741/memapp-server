@@ -1,28 +1,30 @@
-// import jwt from "jsonwebtoken";
+import jwt from "jsonwebtoken";
 
-// // const secret = "test";
+// const secret = "test";
 
-// const auth = async (req, res, next) => {
-//   try {
-//     const token = req.headers.authorization.split(" ")[1];
-//     const isCustomAuth = token.length < 500;
+const auth = async (req, res, next) => {
+  try {
+    const token = req.headers.authorization.split(" ")[1]; //Google Auth
+    const isCustomAuth = token.length < 500; //Custom Auth
 
-//     let decodedData;
+    let decodedData;
 
-//     if (token && isCustomAuth) {
-//       decodedData = jwt.verify(token, "test");
+    if (token && isCustomAuth) {
+      //Custom Auth
+      decodedData = jwt.verify(token, "test");
 
-//       req.userId = decodedData?.id;
-//     } else {
-//       decodedData = jwt.decode(token);
+      req.userId = decodedData?.id;
+    } else {
+      //Google Auth
+      decodedData = jwt.decode(token);
 
-//       req.userId = decodedData?.sub;
-//     }
+      req.userId = decodedData?.sub;
+    }
 
-//     next();
-//   } catch (error) {
-//     console.log(error);
-//   }
-// };
+    next();
+  } catch (error) {
+    console.log(error);
+  }
+};
 
-// export default auth;
+export default auth;
