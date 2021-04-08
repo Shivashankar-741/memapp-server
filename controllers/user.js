@@ -20,15 +20,17 @@ export const signin = async (req, res) => {
 };
 
 export const signup = async (req, res) => {
-  const { email, password, confirmpassword, firstName, lastName } = req.body;
+  const { email, password, confirmPassword, firstName, lastName } = req.body;
 
   try {
     const existingUser = await User.findOne({ email });
 
     if (existingUser) return res.status(400).json({ message: "User already exists" });
 
-    if (password !== confirmpassword)
+    if (password !== confirmPassword) {
+      console.log(password, confirmPassword);
       return res.status(400).json({ message: "Password don't match" });
+    }
 
     const hashedPassword = await bcrypt.hash(password, 12);
 
@@ -43,7 +45,6 @@ export const signup = async (req, res) => {
     res.status(200).json({ result, token });
   } catch (error) {
     res.status(500).json({ message: "Something went wrong" });
-
     console.log(error);
   }
 };
