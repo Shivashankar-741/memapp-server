@@ -1,18 +1,18 @@
-import jwt from "jsonwebtoken";
+import jwt from 'jsonwebtoken';
 
 // const secret = "test";
 
 const auth = async (req, res, next) => {
   try {
     // console.log(req.headers);
-    const token = req.headers.authorization.split(" ")[1]; //Google Auth
+    const token = req.headers.authorization.split(' ')[1]; //Google Auth
     const isCustomAuth = token.length < 500; //Custom Auth
 
     let decodedData;
 
     if (token && isCustomAuth) {
       //Custom Auth
-      decodedData = jwt.verify(token, "test");
+      decodedData = jwt.verify(token, 'test');
 
       req.userId = decodedData?.id;
     } else {
